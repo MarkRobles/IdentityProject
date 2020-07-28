@@ -11,6 +11,8 @@ namespace Persistence
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection")
         {
@@ -19,7 +21,7 @@ namespace Persistence
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<ApplicationUser>();
+        //   modelBuilder.Entity<ApplicationUser>();
         }
 
         public static ApplicationDbContext Create()
