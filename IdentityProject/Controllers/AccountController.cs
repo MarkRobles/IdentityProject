@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using IdentityProject.Models;
 using Seervice.Auth;
 using Model;
+using Common;
+using Newtonsoft.Json;
 
 namespace IdentityProject.Controllers
 {
@@ -81,6 +83,19 @@ namespace IdentityProject.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+
+                    var user = UserManager.FindByEmail(model.Email);
+                    var jUser = JsonConvert.SerializeObject(new CurrentUser
+                    {
+                        Email = user.Email,
+                        Name = user.Name,
+                        LastName = user.LastName,
+                        UserId = user.Id,
+                        UserName = user.UserName
+                    });
+
+                    await UserManager.AddClaimAsync(user.Id, new Claim(ClaimTypes.UserData,jUser));
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -153,11 +168,11 @@ namespace IdentityProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name, LastName = model.LastName };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                  //  await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
                     // Enviar correo electrónico con este vínculo
@@ -165,7 +180,7 @@ namespace IdentityProject.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login", "Account");
                 }
                 AddErrors(result);
             }
