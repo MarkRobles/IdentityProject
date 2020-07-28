@@ -9,7 +9,8 @@ namespace Model
     public class ApplicationUser : IdentityUser
     {
 
-        public DateTime? BirthDay  { get; set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
