@@ -59,6 +59,10 @@
     <Compile Include="Migrations\202007290002418_Initialize.Designer.cs">
       <DependentUpon>202007290002418_Initialize.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007291634092_UserRole.cs" />
+    <Compile Include="Migrations\202007291634092_UserRole.Designer.cs">
+      <DependentUpon>202007291634092_UserRole.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -75,6 +79,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202007290002418_Initialize.resx">
       <DependentUpon>202007290002418_Initialize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007291634092_UserRole.resx">
+      <DependentUpon>202007291634092_UserRole.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

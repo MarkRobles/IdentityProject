@@ -66,5 +66,28 @@ namespace Seervice.Auth
             }
             return manager;
         }
+
+
+        public override Task<IdentityResult> AddToRoleAsync(string userId, string roleId) {
+            try
+            {
+                using (var ctx = new ApplicationDbContext())
+                {
+                    ctx.ApplicationUserRole.Add(new ApplicationUserRole
+                    {
+                        UserId = userId,
+                        RoleId = roleId
+                    });
+
+                    ctx.SaveChanges();
+                }
+                return Task.FromResult(new IdentityResult(){ });
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(new IdentityResult(ex.Message));
+            }
+        }
+
     }
 }
