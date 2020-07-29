@@ -1,0 +1,54 @@
+﻿@model Model.ApplicationUser
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<div class="row">
+    <div class="col-12">
+        <h2>@ViewBag.Title</h2>
+        <hr />
+
+    </div>
+    <div class="col-12">
+        <strong>@Html.DisplayNameFor(model => model.Name)</strong>
+        <br>
+        @Html.DisplayFor(model => model.Name)
+
+    </div>
+    <br>
+    <div class="col-12">
+        <strong>@Html.DisplayNameFor(model => model.LastName)</strong>
+        <br>
+        @Html.DisplayFor(model => model.LastName)
+
+    </div>
+    <br>
+    @using (Html.BeginForm("AddRoleTouser", "User", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.Id);
+        @Html.Hidden("role", "")
+        <div class="col-12">
+            <strong>@Html.Label("Roles")</strong>
+            <br>
+            @Html.DropDownList("Id", (IEnumerable
+              <SelectListItem>)ViewBag.Roles)
+        </div>
+        <br>
+        <input class="btn btn-primary" type="submit" value="Asignar Rol">
+    }
+</div>
+<div>
+</div>
+<script>
+    $(function () {
+
+        $("select").change(function () {
+            var str = "";
+            $("select option:selected").each(function () {
+                str += $(this).text() + " ";
+            });
+            $("#role").val(str);
+        }).change();
+    });
+</script>
