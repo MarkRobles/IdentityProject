@@ -11,11 +11,23 @@ namespace Seervice
     public class UserService
     {
 
-        public IEnumerable<ApplicationUser> GetAll() {
-            var result = new List<ApplicationUser>();
+        public IEnumerable<UserGrid> GetAll() {
+            var result = new List<UserGrid>();
 
             using (var ctx = new ApplicationDbContext()){
-                result = ctx.ApplicationUsers.ToList();
+                result = (
+                     from au in ctx.ApplicationUsers
+                     from aur in ctx.ApplicationUserRole.Where(x => x.UserId == au.Id).DefaultIfEmpty()
+                     from ar in ctx.ApplicationRoles.Where(x => x.Id == aur.RoleId && x.Enabled).DefaultIfEmpty()
+                     select new UserGrid
+                     {
+                         Id = au.Id,
+                         Name = au.UserName,
+                         LastName = au.LastName,
+                         Email = au.Email,
+                         Role = ar.Name
+                     }
+                     ).ToList();
             }
             return result;
         }

@@ -27,11 +27,11 @@
     @using (Html.BeginForm("AddRoleTouser", "User", FormMethod.Post))
     {
         @Html.HiddenFor(x => x.Id);
-        @Html.Hidden("role", "")
+        @*@Html.Hidden("role", "")*@
         <div class="col-12">
             <strong>@Html.Label("Roles")</strong>
             <br>
-            @Html.DropDownList("Id", (IEnumerable
+            @Html.DropDownList("role", (IEnumerable
               <SelectListItem>)ViewBag.Roles)
         </div>
         <br>
@@ -48,7 +48,7 @@
             $("select option:selected").each(function () {
                 str += $(this).text() + " ";
             });
-            $("#role").val(str);
+            //$("#role").val(str);
         }).change();
     });
 </script>

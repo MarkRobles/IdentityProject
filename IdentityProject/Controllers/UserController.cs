@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace IdentityProject.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
 
@@ -56,7 +57,7 @@ namespace IdentityProject.Controllers
 
         public async Task<ActionResult> AddRoleTouser(string Id, string role) {
 
-            role = "User";
+            //role = "User";
             var roles = await _userManager.GetRolesAsync(Id);
             if (roles.Any())
             {
@@ -87,6 +88,31 @@ namespace IdentityProject.Controllers
             }
 
         }
+
+        [AllowAnonymous]
+        public string Anonymous() {
+            return "anonymous";
+        }
+        
+        [Authorize(Roles = "Guest")]
+        public string Guest() {
+            return "guest";
+        }
+
+        [Authorize(Roles = "Moderator")]
+        public string Moderator()
+        {
+            return "moderator";
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        public string Admin()
+        {
+            return "admin";
+        }
+
+
 
     }
 
