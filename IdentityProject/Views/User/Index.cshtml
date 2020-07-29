@@ -43,7 +43,7 @@
             </td>
 
             <td>
-                @Html.DisplayFor(modelItem => item.UserName)
+                @Html.ActionLink(item.UserName, "Get", new { id = item.Id })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
